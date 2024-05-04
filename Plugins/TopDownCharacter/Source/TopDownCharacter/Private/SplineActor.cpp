@@ -84,9 +84,7 @@ void ASplineActor::Undo()
 		Points.Empty();
 		SplineComponent->RemoveSplinePoint((SplinePoints - 1), ESplineCoordinateSpace::Local);
 	}
-	else {
-		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Blue, TEXT("There is Nothing to Undo"));
-	}
+	else {}
 }
 
 void ASplineActor::DestroyAllWall()

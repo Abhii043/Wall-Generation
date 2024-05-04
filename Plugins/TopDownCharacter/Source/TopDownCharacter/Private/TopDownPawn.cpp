@@ -30,6 +30,8 @@ ATopDownPawn::ATopDownPawn()
 	Camera->SetupAttachment(SpringArm); 
 
 	FloatingMovement = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("FloatingMovement"));
+
+	NotificationMessage.BindUFunction(this , "ShowNotification");
 }
 
 // Called when the game starts or when spawned
@@ -121,14 +123,6 @@ void ATopDownPawn::ZoomInOut(const FInputActionValue& ActionValue)
 	SpringArm->TargetArmLength = FMath::Clamp(SpringArm->TargetArmLength, -500, -0);
 	SpringArm->TargetOffset.Z = FMath::Clamp(SpringArm->TargetOffset.Z, 0, 3000);
 
-	FString FloatAsString = FString::SanitizeFloat(SpringArm->TargetArmLength);
-	FString DebugMessage = FString::Printf(TEXT("MyFloatValue: %s"), *FloatAsString);
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, FString::Printf(TEXT("armlength: %f"), SpringArm->TargetArmLength));
-
-	FloatAsString = FString::SanitizeFloat(SpringArm->TargetOffset.Z);
-	DebugMessage = FString::Printf(TEXT("MyFloatValue: %s"), *FloatAsString);
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, FString::Printf(TEXT("offsetZ: %f"), SpringArm->TargetOffset.Z));
-
 	float Angle;
 	if (SpringArm->TargetArmLength == 0) {
 		Angle = -90;
@@ -145,9 +139,10 @@ void ATopDownPawn::ZoomInOut(const FInputActionValue& ActionValue)
 		Angle = 0;
 	}
 
-	FloatAsString = FString::SanitizeFloat(Angle);
-	DebugMessage = FString::Printf(TEXT("MyFloatValue: %s"), *FloatAsString);
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, FString::Printf(TEXT("Angle: %f"), Angle));
+	FString Offset_Z = "Offset_Z: " + FString::SanitizeFloat(SpringArm->TargetOffset.Z);
+	FString ArmLength ="ArmLength: " + FString::SanitizeFloat(SpringArm->TargetArmLength);
+	FString Angle_ = "Angle: " + FString::SanitizeFloat(Angle);
+	NotificationMessage.ExecuteIfBound(Offset_Z, ArmLength, Angle_); 
 
 	Camera->SetRelativeRotation(FRotator(Angle, 0, 0));
 

@@ -14,6 +14,8 @@
 #include <GameFramework/FloatingPawnMovement.h>
 #include "TopDownPawn.generated.h"
 
+DECLARE_DELEGATE_ThreeParams(ShowCameraParam , FString , FString, FString)
+
 UCLASS()
 class TOPDOWNCHARACTER_API ATopDownPawn : public APawn
 {
@@ -61,4 +63,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "MyTopDownPawn")
 	void ZoomInOut(const FInputActionValue& ActionValue);
 
+	UFUNCTION(BLueprintimplementableEvent)
+	void ShowNotification(const FString& Offst_Z , const FString& ArmLength, const FString& Angle);
+
+	ShowCameraParam NotificationMessage;
 };

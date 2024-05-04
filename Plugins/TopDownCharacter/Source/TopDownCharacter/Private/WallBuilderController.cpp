@@ -159,6 +159,10 @@ void AWallBuilderController::UndoWall()
 		FString Msg = "Wall " + FString::FromInt(ArrayOfSplines[SplineIndex]->Points.Num() - 1) + " Of Spline " + FString::FromInt(SplineIndex + 1) + " Is Destroyed";
 		Message.ExecuteIfBound(Msg);
 	}
+	else {
+		FString Msg = "There is No Wall To Destroy";
+		Message.ExecuteIfBound(Msg);
+	}
 }
 
 void AWallBuilderController::Destroy()
