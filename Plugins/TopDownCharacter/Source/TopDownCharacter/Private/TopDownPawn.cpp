@@ -10,18 +10,10 @@ ATopDownPawn::ATopDownPawn()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	CapsuleComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CapsuleComponent"));
-	CapsuleComponent->SetCapsuleHalfHeight(100); 
-	CapsuleComponent->SetCapsuleRadius(40);
-	CapsuleComponent->SetEnableGravity(false);
-	CapsuleComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-	CapsuleComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block); 
-	RootComponent = CapsuleComponent; 
-
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));  
 	SpringArm->TargetArmLength = -211.599960;
 	SpringArm->TargetOffset = FVector(-520, 0, 540);
-	SpringArm->SetupAttachment(CapsuleComponent); 
+	RootComponent = SpringArm;
 	
 	float Angle = FMath::RadiansToDegrees(atan(SpringArm->TargetOffset.Z / SpringArm->TargetArmLength));
 
